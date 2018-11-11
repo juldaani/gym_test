@@ -14,19 +14,21 @@ from sklearn.ensemble import ExtraTreesClassifier
 
 
 clf.verbose = 0
+clf.n_jobs = 1
 
 rewards = []
 acts = []
-for i_episode in range(500):
+for i_episode in range(100):
     observation = env.reset()
     
-    print(i_episode)
+#    print(i_episode)
     
     r = 0
     for t in range(10000):
         env.render()
         
-        action = int(clf.predict([observation]))
+        scaledObserv = scaler.transform([observation])
+        action = int(clf.predict(scaledObserv))
         observation, reward, done, info = env.step(action)
         
         acts.append(action)
@@ -34,7 +36,7 @@ for i_episode in range(500):
         r += reward
         
         if done:
-#            print("Episode finished after {} timesteps".format(t+1))
+            print("Episode finished after {} timesteps".format(t+1))
             break
         
     rewards.append(r)

@@ -10,6 +10,8 @@ Created on Tue Nov  6 19:52:59 2018
 import gym
 import numpy as np
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.neural_network import MLPClassifier
+from sklearn.preprocessing import StandardScaler
 
 
 env = gym.make('CartPole-v0')
@@ -46,8 +48,12 @@ for i_episode in range(4000):
 actions = np.row_stack(actions).flatten()
 states = np.row_stack(states)
 
+#clf = MLPClassifier(alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1, verbose=1)
 
-clf = ExtraTreesClassifier(n_estimators=200, random_state=0, verbose=2)
+scaler = StandardScaler()
+scaler.fit(states)
+
+clf = ExtraTreesClassifier(n_estimators=5, random_state=0, verbose=2)
 clf.fit(states, actions)
 
 

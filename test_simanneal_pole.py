@@ -48,7 +48,8 @@ env.seed(seed)
 observation = env.reset()
 initActions = list(np.random.randint(0, high=2, size=50))
 initReward = 0
-for a in initActions:
+#for a in initActions:
+for a in state:
     
     observation, r, done, info = env.step(a)
     initReward += r
